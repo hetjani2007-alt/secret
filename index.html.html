@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffd1d1, #f7bfbf);
+    font-family: 'Comic Sans MS', cursive;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* White card */
+.card {
+    background: white;
+    padding: 50px 70px;
+    border-radius: 35px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    text-align: center;
+    width: 520px;
+}
+
+/* Heading */
+h1 {
+    font-size: 32px;
+    margin-bottom: 35px;
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+button {
+    width: 160px;
+    height: 55px;
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    user-select: none;
+}
+
+#yes {
+    background: #ff4d6d;
+    color: white;
+}
+
+#no {
+    background: #999;
+    color: white;
+    position: relative;
+}
+
+/* Message */
+#message {
+    display: none;
+    margin-top: 30px;
+    font-size: 22px;
+    color: #e6005c;
+}
+
+/* Cats — HIDDEN COMPLETELY at start */
+.cats {
+    display: none;                /* 🔑 no first-frame presence */
+    margin-top: 25px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Each cat */
+.cat img {
+    width: 110px;
+    pointer-events: none;
+}
+
+/* Right cat movement */
+#cat-right {
+    transition: transform 1.5s ease-out;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Will you be my Valentine? 💖</h1>
+
+    <div class="buttons">
+        <button id="yes">YES 💕</button>
+        <button id="no">NO 😜</button>
+    </div>
+
+    <div id="message">
+        Sherlock is waiting for you,<br>
+        with all his heart ❤️
+    </div>
+
+    <!-- Cats appear ONLY after YES -->
+    <div class="cats" id="cats">
+        <div class="cat">
+            <img src="https://media.tenor.com/2roX3uxz_68AAAAC/cat-dance.gif">
+        </div>
+
+        <div class="cat" id="cat-right">
+            <img src="https://media.tenor.com/GfSX-u7VGM4AAAAC/cat-running.gif">
+        </div>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const message = document.getElementById("message");
+const cats = document.getElementById("cats");
+const catRight = document.getElementById("cat-right");
+
+let escaped = false;
+
+/* NO button runs */
+document.addEventListener("mousemove", (e) => {
+    const r = noBtn.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+
+    const dx = e.clientX - cx;
+    const dy = e.clientY - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+
+    if (dist < 90) {
+        if (!escaped) {
+            noBtn.style.position = "fixed";
+            escaped = true;
+        }
+
+        let x = r.left - dx;
+        let y = r.top - dy;
+
+        x = Math.max(10, Math.min(window.innerWidth - r.width - 10, x));
+        y = Math.max(10, Math.min(window.innerHeight - r.height - 10, y));
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+});
+
+/* YES click */
+yesBtn.onclick = () => {
+    noBtn.style.display = "none";
+    message.style.display = "block";
+    cats.style.display = "flex";
+
+    setTimeout(() => {
+        catRight.style.transform = "translateX(-60px)";
+    }, 300);
+};
+</script>
+
+</body>
+</html>
